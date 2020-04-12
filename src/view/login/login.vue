@@ -23,7 +23,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <span class="code"><img :src="codeURL" alt=""></span>
+              <span class="code"><img :src="codeURL" alt="" @click="changeCode"></span>
             </el-col>
           </el-row>
           <el-form-item>
@@ -32,27 +32,41 @@
               </div>
             </el-checkbox>
           </el-form-item>
-        </el-form>
-      </div>
 
-      <div class="btn">
-        <el-button type="primary" class="btn-first">登录</el-button><br>
-        <el-button type="primary" class="btn-second">注册</el-button>
+          <el-form-item>
+            <div class="btn">
+              <el-button type="primary" class="btn-first">登录</el-button><br>
+              <el-button type="primary" class="btn-second" @click="registerClick">注册</el-button>
+            </div>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
     <div class="right">
       <img src="@/assets/img/login_banner_ele.png" alt="">
     </div>
+
+    <!-- dialog出口 -->
+    <register ref="register"></register>
   </div>
 </template>
 
 <script>
+  // 导入子组件 dialog
+  import register from './register.vue'
+
   export default {
     name: 'login',
+    // 注册子组件
+    components: {
+      register,
+    },
     data() {
       return {
+        // 对话框
+        dialogVisible: false,
         // 验证码地址
-        codeURL :process.env.VUE_APP_URL+'/captcha?type=login',
+        codeURL: process.env.VUE_APP_URL + '/captcha?type=login',
         form: {
           username: '',
           passWord: '',
@@ -60,13 +74,21 @@
         }
       }
     },
-    created(){
-      console.log(process.env.VUE_APP_URL);
+    methods: {
+      changeCode() {
+        this.codeURL = process.env.VUE_APP_URL + '/captcha?type=login&t=' + Date.now();
+      },
+      registerClick(){
+        this.$refs.register.dialogVisible = true;
+      }
+    },
+    created() {
+      // console.log(process.env.VUE_APP_URL);
     }
   }
 </script>
 
-<style lang="less">
+<style lang="less" scop>
   .login {
     display: flex;
     justify-content: space-around;
@@ -124,17 +146,21 @@
           color: rgba(153, 153, 153, 1);
           line-height: 16px;
         }
-      }
-      .btn {
 
-        .btn-first,.btn-second {
-          width: 100%;
-        }
-        
-        .btn-first {
-          margin-bottom: 20px;
+        .btn {
+
+          .btn-first,
+          .btn-second {
+            width: 100%;
+          }
+
+          .btn-first {
+            margin-bottom: 20px;
+          }
         }
       }
+
+
     }
   }
 </style>

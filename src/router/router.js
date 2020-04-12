@@ -8,7 +8,8 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 // 导入login组件
-import login from '@/view/login/login.vue'
+import login from '@/view/login/login.vue';
+
 
 // 实例化路由
 let router = new VueRouter({
@@ -17,6 +18,7 @@ let router = new VueRouter({
             path:'/',
             component: login
         },
+
     ]
 })
 
